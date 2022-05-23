@@ -1,4 +1,6 @@
 use utf8;
+#Deps:
+#Email::Sender::Simple Email::Sender::Transport::SMTPS Email::Simple::Creator Try::Tiny
 use Modern::Perl;
 use Net::Ping;
 use Email::Sender::Simple qw(sendmail);
@@ -8,9 +10,12 @@ use Try::Tiny;
 
 my @check_ports = qw(80 443);
 
+my @lines = <>;
+chomp @lines;
+
 my %hosts;
 
-for( qw(www.baidu.com 202.99.166.4 sina.com.cn) ) {
+for( @lines) {
 	$hosts{$_} = 0
 }
 
@@ -30,7 +35,7 @@ while(1){
 			}
 		}
 	}
-	sleep 60*10;
+	sleep 60*5;
 }
 
 sub notify{
@@ -47,7 +52,7 @@ sub notify{
 	my $message = Email::Simple->create(
 		header => [
 			From    => '11111111111@qq.com',
-			To      => '11111111111@qq.com',
+			To      => '22222222222@qq.com',
 			Subject => 'Please note the host is online',
 		],
 		body => $text,
